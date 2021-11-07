@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <div class="row mb-2">
+        <div class="col-1">
+            <button class="btn btn-light" (click)="hideDetail()"> List </button>
+        </div>
+        <div class="col text-center">
+            <h4>{{data.date}}</h4>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-light">Twitter</button>
+        </div>
+    </div>
+    <table class="table table-striped mx-auto">
+        <tbody>
+            <tr>
+                <th >Status</th>
+                <td scope="col">{{data.weatherCode}}</td>
+            </tr>
+            <tr>
+                <th>Max Temperature</th>
+                <td>{{data.temperatureMax}} ° F</td>
+            </tr>
+            <tr>
+                <th>Min Temperature</th>
+                <td>{{data.temperatureMin}} ° F</td>
+            </tr>
+            <tr>
+                <th>Apparent Temperature</th>
+                <td>{{data.temperatureApparent}} ° F</td>
+            </tr>
+            <tr>
+                <th>Sun Rise Time</th>
+                <td>{{data.sunriseTime}}</td>
+            </tr>
+            <tr>
+                <th>Sun Set Time</th>
+                <td>{{data.sunsetTime}}</td>
+            </tr>
+            <tr>
+                <th>Humidity</th>
+                <td>{{data.humidity}}</td>
+            </tr>
+            <tr>
+                <th>Visibility</th>
+                <td>{{data.visibility}}</td>
+            </tr>
+            <tr>
+                <th>Cloud Cover</th>
+                <td>{{data.cloudCover}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

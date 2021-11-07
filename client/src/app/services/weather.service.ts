@@ -37,7 +37,7 @@ export class WeatherService {
     return this.http.get<GeoLocation>(this.getGeoLocationUrl,httpGeoLocationOptions)
   }
 
-  getWeatherReport(location:string):Observable<{}>{
-    return this.http.get<{}>(this.getWeatherReportUrl + location)
+  getWeatherReport(location:string):Observable<any>{
+    return this.http.get<any>(this.getWeatherReportUrl + location)
   }
 }
