@@ -1,0 +1,33 @@
+<div *ngIf="showResult">
+    <div *ngIf="loading" id="loading">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="offset-md-2 col-md-8">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!loading">
+        <div class="container">
+            <div class="row">
+                <div class="d-flex mt-3 relative">
+                    <button [ngClass]="{'btn-primary': isResultTab === true}" class="btn btn-primary width" (click)="showResults()">Results</button>
+                    <button [ngClass]="{'btn-primary': isResultTab === false}" class="btn width" (click)="showFavourites()">Favorites</button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isError && showResultTab === true" class="row mt-4">
+            <div class="alert alert-danger col text-center">
+                An error occured please try again later
+            </div>
+        </div>
+
+        <app-parent-result [dailyReport]="dailyReport" [weatherData]="weatherData" [location]="location" [center]="center" *ngIf="showResultTab === true && !isError"></app-parent-result>
+
+        <app-favourite-tab [favourites]="favourites" *ngIf="showResultTab === false" ></app-favourite-tab>
+    </div>
+</div>

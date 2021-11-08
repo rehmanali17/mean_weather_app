@@ -12,19 +12,18 @@ export class UiService {
   private dialyReport:DailyReport[] = [];
   private weatherData: DetailWeather[] = []
   private showDetail:number = -1
+  private isClear:boolean = false;
   
   private subjectLoading = new Subject<any>();
   private subjectResult = new Subject<any>();
   private subjectReport = new Subject<any>();
   private subjectDetail = new Subject<any>();
   private subjectDetailWeather = new Subject<any>();
+  private subjectClear = new Subject<any>();
+
 
   constructor() { }
 
-  // toggleViewResults():void{
-  //   this.showResult = !this.showResult;
-  //   this.subject.next(this.showResult)
-  // }
 
   showViewResults():void{
     this.showResult = true;
@@ -34,6 +33,11 @@ export class UiService {
   hideViewResults():void{
     this.showResult = false;
     this.subjectResult.next(this.showResult)
+  }
+
+  onClear(data:boolean):void{
+    this.isClear = data;
+    this.subjectClear.next(this.isClear)
   }
 
   bindDialyReport(data: DailyReport[]):void{
@@ -56,15 +60,6 @@ export class UiService {
     this.subjectDetailWeather.next(this.showDetail)
   }
 
-
-  // isFinished():void{
-  //   this.loading = false
-  //   this.subject.next(this.loading)
-  // }
-
-  // onObservable():Observable<any>{
-  //   return this.subject.asObservable();
-  // }
   onToggle():Observable<any>{
     return this.subjectResult.asObservable();
   }
@@ -84,4 +79,9 @@ export class UiService {
   onLoading():Observable<any>{
     return this.subjectLoading.asObservable();
   }
+
+  handleClear():Observable<any>{
+    return this.subjectClear.asObservable();
+  }
+
 }

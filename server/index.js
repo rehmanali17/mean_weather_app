@@ -1,10 +1,13 @@
 const express = require("express");
 const axios = require("axios");
+const cors = require('cors')
+const config = require('config')
 
 const app = express();
+app.use(cors())
 
 const PORT = process.env.PORT || 5000;
-const ApiKey = "LaFkTpyRm4YbqKqUw1KAwFYwjJq2T8Zw"
+const ApiKey = config.get('ApiKey')
 
 const months = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"]
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']

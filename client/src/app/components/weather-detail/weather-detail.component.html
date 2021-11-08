@@ -1,13 +1,13 @@
 <div class="container mt-5">
-    <div class="row mb-2">
+    <div class="row mb-4">
         <div class="col-1">
-            <button class="btn btn-light" (click)="hideDetail()"> List </button>
+            <button class="btn" (click)="hideDetail()"> List </button>
         </div>
         <div class="col text-center">
             <h4>{{data.date}}</h4>
         </div>
         <div class="col-1">
-            <button class="btn btn-light">Twitter</button>
+            <button class="btn">Twitter</button>
         </div>
     </div>
     <table class="table table-striped mx-auto">
@@ -50,4 +50,5 @@
             </tr>
         </tbody>
     </table>
+    <app-map [center]="center" class="mb-3"></app-map>
 </div>

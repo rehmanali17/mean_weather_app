@@ -10,6 +10,7 @@ import { UiService } from 'src/app/services/ui.service';
 })
 export class WeatherDetailComponent implements OnInit {
  @Input() data:any;
+ @Input() center: google.maps.LatLngLiteral = {lat:0,lng:0}
 //  @Input() dailyReport: DailyReport[] = []
 //  @Input() weatherData: DetailWeather[] = []
 

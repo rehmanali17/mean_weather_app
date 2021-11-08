@@ -1,0 +1,8 @@
+.width{
+    width: 100px;
+}
+
+.relative{
+    position: relative;
+    left: calc(50% - 100px);
+}

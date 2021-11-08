@@ -13,15 +13,12 @@ export class WeatherDailyViewComponent implements OnInit {
   constructor(private uiService: UiService) { }
 
   ngOnInit(): void {
-    // this.print()
+    
   }
 
   weatherDetail(index: number):void{
     this.uiService.toggleShow(index)
   }
 
-  // print():void{
-  //   console.log(this.dailyReport)
-  // }
 
 }

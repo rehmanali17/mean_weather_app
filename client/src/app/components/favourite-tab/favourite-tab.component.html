@@ -1,0 +1,25 @@
+<div class="container mt-3">
+    <div *ngIf="favourites.length === 0" class="row mt-4">
+        <div class="alert alert-warning col text-center">
+          <b>Sorry!</b> No records found.
+        </div>
+    </div>
+    <table *ngIf="favourites.length !== 0" class="table mx-auto">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let fav of favourites; let i=index">   
+                <th scope="row">{{i+1}}</th>
+                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}">{{fav.city}}</td>
+                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}">{{fav.state}}</td>
+                <td (click)="deleteFav(i)" [ngStyle]="{'cursor':'pointer'}"><i class="fas fa-trash-alt"></i></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

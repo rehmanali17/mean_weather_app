@@ -1,53 +1,40 @@
-<div *ngIf="showResult">
-    <div *ngIf="loading" id="loading">
-        <div class="container">
-            <div class="row mt-5">
-                <div class="offset-md-2 col-md-8">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
+<div *ngIf="!showDetail">
+    <h3 class="text-center mt-4">Forecast at {{location.city}}, {{location.state}}</h3>
+    <div class="container mx-auto d-flex justify-content-end my-3 p-0">
+        <button type="button" class="btn" [disabled]="isFavourite == true" (click)="markFavourite()">
+            <i *ngIf="!isFavourite" class="far fa-star"></i>
+            <i *ngIf="isFavourite" [ngStyle]="{'color': 'yellow'}" class="fas fa-star"></i>
+        </button>
+        <button type="button" class="btn" [disabled]="detailBtnIndex === -1" (click)="showDailyDetail()">
+            Details
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="container mb-2">
+        <nav>
+            <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-daily-view-tab" data-toggle="tab" href="#nav-daily-view" role="tab" aria-controls="nav-daily-view" aria-selected="true">Daily View</a>
+                <a class="nav-item nav-link" id="nav-daily-chart-tab" data-toggle="tab" href="#nav-daily-chart" role="tab" aria-controls="nav-daily-chart" aria-selected="false">Daily Temp. Chart</a>
+                <a class="nav-item nav-link" id="nav-meteogram-tab" data-toggle="tab" href="#nav-meteogram" role="tab" aria-controls="nav-meteogram" aria-selected="false">Meteogram</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-daily-view" role="tabpanel" aria-labelledby="nav-daily-view-tab">
+                <app-weather-daily-view [dailyReport]="dailyReport"></app-weather-daily-view>
+            </div>
+            <div class="tab-pane fade" id="nav-daily-chart" role="tabpanel" aria-labelledby="nav-daily-chart-tab">
+                <app-daily-temperature-chart [dailyReport]="dailyReport"></app-daily-temperature-chart>
+            </div>
+            <div class="tab-pane fade" id="nav-meteogram" role="tabpanel" aria-labelledby="nav-meteogram-tab">
+                <app-weather-daily-view [dailyReport]="dailyReport"></app-weather-daily-view>
             </div>
         </div>
     </div>
-    <div *ngIf="!loading && !showDetail" id="results">
-        <div class="container mx-auto d-flex justify-content-end my-3 p-0">
-            <button type="button" class="btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-                </svg>
-            </button>
-            <button type="button" class="btn btn-light" (click)="showDailyDetail()">
-                Details
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                </svg>
-            </button>
-        </div>
-        
-        <div class="container mb-2">
-            <nav>
-                <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist">
-                  <a class="nav-item nav-link active" id="nav-daily-view-tab" data-toggle="tab" href="#nav-daily-view" role="tab" aria-controls="nav-daily-view" aria-selected="true">Daily View</a>
-                  <a class="nav-item nav-link" id="nav-daily-chart-tab" data-toggle="tab" href="#nav-daily-chart" role="tab" aria-controls="nav-daily-chart" aria-selected="false">Daily Temp. Chart</a>
-                  <a class="nav-item nav-link" id="nav-meteogram-tab" data-toggle="tab" href="#nav-meteogram" role="tab" aria-controls="nav-meteogram" aria-selected="false">Meteogram</a>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-daily-view" role="tabpanel" aria-labelledby="nav-daily-view-tab">
-                    <app-weather-daily-view [dailyReport]="dailyReport"></app-weather-daily-view>
-                </div>
-                <div class="tab-pane fade" id="nav-daily-chart" role="tabpanel" aria-labelledby="nav-daily-chart-tab">
-                    <app-daily-temperature-chart [dailyReport]="dailyReport"></app-daily-temperature-chart>
-                </div>
-                <div class="tab-pane fade" id="nav-meteogram" role="tabpanel" aria-labelledby="nav-meteogram-tab">
-                    <app-weather-daily-view [dailyReport]="dailyReport"></app-weather-daily-view>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-
-    <app-weather-detail *ngIf="showDetail" [data]="detailData" ></app-weather-detail>
     
 </div>
+
+<app-weather-detail *ngIf="showDetail" [center]="center" [data]="detailData" ></app-weather-detail>
+    

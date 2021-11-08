@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UiService } from 'src/app/services/ui.service';
 import { Subscription } from 'rxjs';
 import { DailyReport } from 'src/app/interface/DailyReport';
 import { DetailWeather } from 'src/app/interface/DetailWeather';
+import { WeatherService } from 'src/app/services/weather.service';
+import { SwitchService } from 'src/app/services/switch.service';
+import { Favourite } from 'src/app/interface/Favourite';
 
 @Component({
   selector: 'app-parent-result',
@@ -11,61 +14,77 @@ import { DetailWeather } from 'src/app/interface/DetailWeather';
 })
 export class ParentResultComponent implements OnInit {
   
-  showResult:boolean = false;
-  loading:boolean = false;
-  dailyReport: DailyReport[] = [];
-  weatherData: DetailWeather[] = [];
+  @Input() dailyReport: DailyReport[] = [];
+  @Input() weatherData: DetailWeather[] = [];
+  @Input() location:{city:string,state:string} = { city:'', state:''};
+  @Input() center: google.maps.LatLngLiteral = {lat:0,lng:0}
   showDetail:boolean = false;
   detailData:any;
   detailBtnIndex:number = -1;
-  subscription:Subscription; 
+  subscription: Subscription;
+  favourites: Favourite[] = []
+  isFavourite:boolean = false
 
-  constructor(private uiService: UiService) { 
-    this.subscription = this.uiService
-      .onToggle()
-      .subscribe(value => {
-        this.showResult = value
-      })
-
-    this.subscription = this.uiService
-      .onLoading()
-      .subscribe(value => {
-        this.loading = value
-    })
-
-    this.subscription = this.uiService
-      .onSuccess()
-      .subscribe(value => {
-        this.dailyReport = value 
-      })
+  constructor(private uiService: UiService, private switchService: SwitchService) {
 
       this.subscription = this.uiService
-      .onData()
-      .subscribe(value => {
-        this.weatherData = value 
+        .onDetail()
+        .subscribe(value => {
+          if(value > -1){
+            this.showDetail = true
+            this.detailBtnIndex = value
+            this.detailData = this.weatherData[value]
+          }else{
+            this.showDetail = false
+          }
       })
 
-      this.subscription = this.uiService
-      .onDetail()
-      .subscribe(value => {
-        if(value > -1){
-          this.showDetail = true
-          this.detailBtnIndex = value
-          this.detailData = this.weatherData[value]
-        }else{
-          this.showDetail = false
-        }
+      
+
+      // console.log(this.favourites)
+      // console.log(this.location)
+      
+
+      this.subscription = this.switchService
+        .onGetFavourite()
+        .subscribe(value => {
+          this.favourites = value
+          this.favourites.forEach(fav => {
+            if(fav.city == this.location.city && fav.state == this.location.state){
+              this.isFavourite = true
+            }
+          })
+        })
+
+      // this.subscription = this.switchService
+      //   .onGetFavourite()
+      //   .subscribe(value => {
+      //     this.favourites = value
+      //   })
+      
         
-      })
 
+      this.subscription = this.switchService
+        .onAddFavourite()
+        .subscribe(value => {
+          this.favourites = value
+        })
+        
 
   }
 
   ngOnInit(): void {
+    this.switchService.getFavourites()
   }
 
-  // print():void{
-  //   console.log('yes')
+  // onMount():void{
+  //   let results = JSON.parse(localStorage.getItem('favourites') || '{}')
+  //   if(results.length){
+  //     this.favourites = results
+  //   }else{
+  //     this.favourites = []
+  //   }
+  //   console.log(this.favourites)
   // }
 
   showDailyDetail():void{
@@ -74,6 +93,12 @@ export class ParentResultComponent implements OnInit {
     }
     this.showDetail = true
     this.detailData = this.weatherData[this.detailBtnIndex]
+  }
+
+  markFavourite():void{
+    this.isFavourite = true
+    this.favourites = [...this.favourites,this.location];
+    this.switchService.setFavourites(this.location)
   }
 
 }
