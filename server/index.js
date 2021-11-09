@@ -12,11 +12,8 @@ const ApiKey = config.get('ApiKey')
 const months = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"]
 const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
-// app.get("/", (req, res) => {
-//   res.json({ message: "Success" });
-// });
 
-app.get("/:location", async (req, res) => {
+app.get("/location/:location", async (req, res) => {
   try {
     let queryParams = {
       params: {
@@ -96,6 +93,46 @@ app.get("/:location", async (req, res) => {
   }
 });
 
-// app.get('/third',())
+
+app.get('/weatherSearch',(req,res)=>{
+  // console.log(req.query)
+  axios.get("https://ipinfo.io/", {
+      params: {
+        token: config.get('ipinfoToken'),
+      },
+    }).then(response => {
+      let queryParams = {
+        params: {
+          location: response.data.loc,
+          fields: [
+            "weatherCode",
+            "temperatureApparent",
+            "humidity",
+            "sunriseTime",
+            "sunsetTime",
+            "visibility",
+            "windSpeed",
+            "cloudCover",
+            "temperatureMax",
+            "temperatureMin"
+          ],
+          timesteps: "1d",
+          units: "imperial",
+          apikey: ApiKey,
+        },
+      };
+      axios.get(
+        "https://api.tomorrow.io/v4/timelines",
+        queryParams
+      ).then(response => {
+        res.status(200).json(response.data.data)
+      }).catch(err => {
+        res.status(400).json({error:err, message: 'Unable to perform request'})
+      })
+    }).catch(err => {
+      res.status(400).json({error:err, message: 'Unable to perform request'})
+    })
+})
+
 
 app.listen(PORT, () => console.log(`Server running at ${PORT}`));

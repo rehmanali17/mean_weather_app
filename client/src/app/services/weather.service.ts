@@ -18,7 +18,7 @@ const httpCurrentLocationOptions = {
 export class WeatherService {
   private getCurrentLocationUrl:string = 'https://ipinfo.io/';
   private getGeoLocationUrl:string = 'https://maps.googleapis.com/maps/api/geocode/json';
-  private getWeatherReportUrl:string = 'http://localhost:5000/';
+  private getWeatherReportUrl:string = 'http://localhost:5000/location/';
   private autoCompleteUrl:string = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?key=AIzaSyBzTk-tyj9744DGGF_InEfksRlAyhSkHtk&input=';
   private location:{city:string,state:string,lat_lng:string} = {city:'',state:'',lat_lng:''}
   private latlng:{lat:number,lng:number} = {lat:0,lng:0}
