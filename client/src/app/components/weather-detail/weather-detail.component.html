@@ -1,20 +1,23 @@
 <div class="container mt-5">
     <div class="row mb-4">
-        <div class="col-1">
-            <button class="btn" (click)="hideDetail()"> List </button>
+        <div class="col-2">
+            <button class="btn d-flex justify-content-between align-items-center" (click)="hideDetail()"> <i class="fas fa-chevron-left"></i> List </button>
         </div>
         <div class="col text-center">
             <h4>{{data.date}}</h4>
         </div>
         <div class="col-1">
-            <button class="btn">Twitter</button>
+                <a class="btn" target="_blank"
+                    href="https://twitter.com/intent/tweet?text=The Temperature in {{location.city}}, {{location.state}} on {{data.date}} is {{data.temperatureApparent}} °F. The weather conditions are {{codes[data.weatherCode]}}.&hashtags=CSCI571WeatherForecast">
+                    <i [ngStyle]="{'font-size':'25px', 'color': '#00acee'}" class="fab fa-twitter"></i>
+                </a>
         </div>
     </div>
     <table class="table table-striped mx-auto">
         <tbody>
             <tr>
                 <th >Status</th>
-                <td scope="col">{{data.weatherCode}}</td>
+                <td scope="col">{{codes[data.weatherCode]}}</td>
             </tr>
             <tr>
                 <th>Max Temperature</th>

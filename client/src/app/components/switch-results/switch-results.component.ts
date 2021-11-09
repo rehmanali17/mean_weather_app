@@ -20,7 +20,7 @@ export class SwitchResultsComponent implements OnInit {
   dailyReport: DailyReport[] = []
   weatherData: DetailWeather[] = [];
   favourites: Favourite[] = []
-  location:{city:string,state:string} = {city:'',state:''}
+  location:{city:string,state:string,lat_lng:string} = {city:'',state:'',lat_lng:''}
   isError:boolean = false
   center: google.maps.LatLngLiteral = {lat:0,lng:0}
   
@@ -31,6 +31,15 @@ export class SwitchResultsComponent implements OnInit {
         .onSuccess() 
         .subscribe(value => 
           this.dailyReport = value
+      )
+
+      this.subscription = this.uiService
+        .handleResult() 
+        .subscribe(value => 
+          {
+            this.showResultTab = value
+            this.isResultTab = value
+          }
       )
 
       this.subscription = this.switchService
@@ -63,6 +72,13 @@ export class SwitchResultsComponent implements OnInit {
         this.showResult = value
       })
 
+      this.subscription = this.uiService
+      .onFavTab()
+      .subscribe(value => {
+        this.showResultTab = value
+        this.isResultTab = value
+      })
+
       this.subscription = this.switchService
         .onAddFavourite()
         .subscribe(value => {
@@ -76,7 +92,7 @@ export class SwitchResultsComponent implements OnInit {
           })
 
           this.subscription = this.weatherService.onLatLng().subscribe(value => {
-            console.log(value)
+            // console.log(value)
             this.center = {
               lat: value.lat,
               lng: value.lng,

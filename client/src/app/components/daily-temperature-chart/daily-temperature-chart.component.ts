@@ -19,11 +19,40 @@ export class DailyTemperatureChartComponent implements OnInit {
   dailyTempChart:any;
   chartOptions: Options = {}
   temperatureArray:any = []
-
+  datesArray:any = [];
+  months:any = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   ngOnInit(): void {
     this.temperatureArray = this.dailyReport.map(interval => {
       return [parseFloat(interval['temperatureMin']),parseFloat(interval['temperatureMax'])]
     })
+
+
+    let date = new Date().getDate();
+    let month = new Date().getMonth();
+    this.datesArray.push(`${this.months[month]} ${date}`);
+    for (let i = 1; i < this.temperatureArray.length; i++) {
+      let chartDate = new Date(
+        new Date().getTime() + i * 24 * 60 * 60 * 1000
+      ).getDate();
+      let chartMonth = new Date(
+        new Date().getTime() + i * 24 * 60 * 60 * 1000
+      ).getMonth();
+      this.datesArray.push(`${this.months[chartMonth]} ${chartDate}`);
+    }
+
     this.chartOptions = {
   
       chart: {
@@ -40,7 +69,7 @@ export class DailyTemperatureChartComponent implements OnInit {
       },
     
       xAxis: {
-          categories: ['21','22','23']
+          categories: this.datesArray
       },
     
       yAxis: {

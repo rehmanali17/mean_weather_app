@@ -16,7 +16,7 @@ export class ParentResultComponent implements OnInit {
   
   @Input() dailyReport: DailyReport[] = [];
   @Input() weatherData: DetailWeather[] = [];
-  @Input() location:{city:string,state:string} = { city:'', state:''};
+  @Input() location:{city:string,state:string,lat_lng:string} = { city:'', state:'',lat_lng:''};
   @Input() center: google.maps.LatLngLiteral = {lat:0,lng:0}
   showDetail:boolean = false;
   detailData:any;

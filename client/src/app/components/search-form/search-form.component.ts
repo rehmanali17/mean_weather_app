@@ -58,12 +58,13 @@ export class SearchFormComponent implements OnInit {
 
   getLocation():void {
     if(this.current === true){
+      this.uiService.onResultTab()
       this.uiService.showViewResults();
       this.uiService.isLoading()
       let tempLoc = this.currentLocation.loc
       tempLoc = tempLoc.split(",")
       this.weatherService.bindLatLng(Number(tempLoc[0]),Number(tempLoc[1]))
-      this.weatherService.bindLocation(this.currentLocation.city,this.currentLocation.region)
+      this.weatherService.bindLocation(this.currentLocation.city,this.currentLocation.region,this.currentLocation.loc)
       let currentLocation = this.currentLocation.loc
       this.weatherService.getWeatherReport(currentLocation)
         .subscribe((data)=>{
@@ -98,6 +99,7 @@ export class SearchFormComponent implements OnInit {
       if(tempCheck === true){
         return;
       }
+      this.uiService.onResultTab()
       this.uiService.showViewResults();
       this.uiService.isLoading()
       let location = this.street + " " + this.city + " " + this.state
@@ -106,10 +108,11 @@ export class SearchFormComponent implements OnInit {
           // console.log(location)
           const city = location.results[0].address_components[3].long_name
           const state = location.results[0].address_components[5].long_name
-          this.weatherService.bindLocation(city,state)
+          
           const { lat, lng } = location.results[0].geometry.location
           this.weatherService.bindLatLng(lat,lng)
           let geoLocation = lat + "," + lng
+          this.weatherService.bindLocation(city,state,geoLocation)
           this.weatherService.getWeatherReport(geoLocation)
             .subscribe((data)=>{
               this.uiService.isLoading()

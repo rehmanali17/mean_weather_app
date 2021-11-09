@@ -1,4 +1,5 @@
 export interface Favourite {
     city:string,
-    state:string
+    state:string,
+    lat_lng:string
 }

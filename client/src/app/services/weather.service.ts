@@ -20,7 +20,7 @@ export class WeatherService {
   private getGeoLocationUrl:string = 'https://maps.googleapis.com/maps/api/geocode/json';
   private getWeatherReportUrl:string = 'http://localhost:5000/';
   private autoCompleteUrl:string = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?key=AIzaSyBzTk-tyj9744DGGF_InEfksRlAyhSkHtk&input=';
-  private location:{city:string,state:string} = {city:'',state:''}
+  private location:{city:string,state:string,lat_lng:string} = {city:'',state:'',lat_lng:''}
   private latlng:{lat:number,lng:number} = {lat:0,lng:0}
 
   private subjectLoc = new Subject<any>()
@@ -64,9 +64,10 @@ export class WeatherService {
   }
 
 
-  bindLocation(city:string,state:string):void{
+  bindLocation(city:string,state:string,lat_lng:string):void{
     this.location.city = city
     this.location.state = state
+    this.location.lat_lng = lat_lng
     this.subjectLoc.next(this.location)
   }
 

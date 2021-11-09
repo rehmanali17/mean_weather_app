@@ -16,8 +16,8 @@
         <tbody>
             <tr *ngFor="let fav of favourites; let i=index">   
                 <th scope="row">{{i+1}}</th>
-                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}">{{fav.city}}</td>
-                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}">{{fav.state}}</td>
+                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}" (click)="fetchFavResults(fav.lat_lng,fav.city,fav.state)">{{fav.city}}</td>
+                <td [ngStyle]="{'color': '#0000EE','text-decoration':'underline', 'cursor':'pointer'}" (click)="fetchFavResults(fav.lat_lng,fav.city,fav.state)" >{{fav.state}}</td>
                 <td (click)="deleteFav(i)" [ngStyle]="{'cursor':'pointer'}"><i class="fas fa-trash-alt"></i></td>
             </tr>
         </tbody>

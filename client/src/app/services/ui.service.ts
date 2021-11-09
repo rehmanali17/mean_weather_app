@@ -13,6 +13,8 @@ export class UiService {
   private weatherData: DetailWeather[] = []
   private showDetail:number = -1
   private isClear:boolean = false;
+  private isResultTab:boolean = false;
+  private hideFavTab:boolean = false
   
   private subjectLoading = new Subject<any>();
   private subjectResult = new Subject<any>();
@@ -20,6 +22,8 @@ export class UiService {
   private subjectDetail = new Subject<any>();
   private subjectDetailWeather = new Subject<any>();
   private subjectClear = new Subject<any>();
+  private subjectResultTab = new Subject<any>();
+  private subjectFavTab = new Subject<any>();
 
 
   constructor() { }
@@ -40,6 +44,11 @@ export class UiService {
     this.subjectClear.next(this.isClear)
   }
 
+  onResultTab():void{
+    this.isResultTab = true;
+    this.subjectResultTab.next(this.isResultTab)
+  }
+
   bindDialyReport(data: DailyReport[]):void{
     this.dialyReport = data
     this.subjectReport.next(this.dialyReport)
@@ -48,6 +57,11 @@ export class UiService {
   bindWeatherData(data: DetailWeather[]):void{
     this.weatherData = data
     this.subjectDetail.next(this.weatherData)
+  }
+
+  onHideFavTab():void{
+    this.hideFavTab = true
+    this.subjectFavTab.next(this.hideFavTab)
   }
 
   isLoading():void{
@@ -82,6 +96,14 @@ export class UiService {
 
   handleClear():Observable<any>{
     return this.subjectClear.asObservable();
+  }
+
+  handleResult():Observable<any>{
+    return this.subjectResultTab.asObservable();
+  }
+
+  onFavTab():Observable<any>{
+    return this.subjectFavTab.asObservable();
   }
 
 }
