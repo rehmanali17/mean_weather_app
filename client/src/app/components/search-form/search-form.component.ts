@@ -25,6 +25,7 @@ export class SearchFormComponent implements OnInit {
   dailyReport: DailyReport[] = [];
   weatherData: DetailWeather[] = [];
   AutoComplete: {city:string,state:string}[] = []
+  choosen:boolean = false
   // options:any = {
   //   types: ['(cities)'],
   //   componentRestrictions: { country: 'USA' }
@@ -140,29 +141,51 @@ export class SearchFormComponent implements OnInit {
     }
   }
 
+  onKey(event:any):void{
+    if(this.choosen == true){
+      document.querySelector('datalist')?.setAttribute('id','')
+      setTimeout(() => {
+        document.querySelector('datalist')?.setAttribute('id','options')
+      }, 5000);
+    }else{
+      document.querySelector('datalist')?.setAttribute('id','options')
+    }
+     this.weatherService.getAutoComplete(event.target.value)
+      .subscribe(value => {
+        this.AutoComplete = [] 
+        value.predictions.forEach((pred:any) => {
+          if(pred.terms.length >= 2){
+            this.AutoComplete.push({city:pred.terms[0].value, state: pred.terms[1].value})
+          }
+        }) 
+      })
+
+  }
+
   handleCity():void{
+    let flag = false
+    let index = -1
+    this.AutoComplete.forEach((element,i) => {
+      if(this.city === element.city){
+        flag = true
+        index = i
+      }
+    })
     if(this.city == ''){
         this.city_check = true
+    }else if(flag){
+      this.state = this.AutoComplete[index].state
+      this.choosen = true
+      this.city_check = false
+      this.initial_check = false
     }else{
       this.city_check = false
       this.initial_check = false
     }
-  }
-
-  onKey(event:any):void{
-    console.log(event.target.value)
-    this.weatherService.getAutoComplete(event.target.value)
-      .subscribe(value => {
-        this.AutoComplete = value.predictions.map((pred: { terms: { value: any; }[]; }) => {
-          return {
-            city: pred.terms[0].value,
-            state: pred.terms[1].value
-          }
-        }) 
-        console.log(this.AutoComplete)
-      })
 
   }
+
+
 
   handleState():void{
     if(this.state == ''){

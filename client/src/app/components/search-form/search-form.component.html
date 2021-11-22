@@ -11,36 +11,19 @@
             <div class="row mb-3">
                 <div *ngIf="street_check == true" class=" mt-0 offset-sm-4 error-msg">Please enter a valid street</div>
             </div>
-            <!-- <mat-form-field class="form-control">
-                <input type="text"  matInput [matAutocomplete]="auto" />
-                <div>
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of options" [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-autocomplete>
-                </div>
-            </mat-form-field> -->
+    
             <div class="form-group row mb-1">
                 <div class="col-sm"></div>
                 <label class="col-sm-2 p-0 my-auto" for="cityInput">City<sup> *</sup></label>
-                <input type="text" class="form-control col-sm-5" (keyup)="onKey($event)" (change)="handleCity()" [ngClass]="{'border-color': city_check === true}" [(ngModel)]="city" name="city" id="city" [disabled]="isChecked()">
+                <input type="text" list="options" class="form-control col-sm-5" (keyup)="onKey($event)" (change)="handleCity()" [ngClass]="{'border-color': city_check === true}" [(ngModel)]="city" name="city" id="city" [disabled]="isChecked()">
+                <datalist id="options">
+                    <option *ngFor="let auto_complete_options of AutoComplete" value="{{auto_complete_options.city}}">{{auto_complete_options.city}}</option>
+                </datalist>
 
-                
-                <!-- <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of options" [value]="option">
-                      {{option}}
-                    </mat-option>
-                  </mat-autocomplete> -->
                 <div class="col-sm"></div>
-                <!-- <select class="form-control col-sm-5" name="" id="">
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                    <option value="">1</option>
-                </select> -->
+    
             </div>
-            <!-- <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"/> -->
+           
             <div class="row mb-3">
                 <div *ngIf="city_check == true" class=" mt-0 offset-sm-4 error-msg">Please enter a valid city</div>
             </div>

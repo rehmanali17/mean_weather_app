@@ -77,15 +77,17 @@ export class ParentResultComponent implements OnInit {
     this.switchService.getFavourites()
   }
 
-  // onMount():void{
-  //   let results = JSON.parse(localStorage.getItem('favourites') || '{}')
-  //   if(results.length){
-  //     this.favourites = results
-  //   }else{
-  //     this.favourites = []
-  //   }
-  //   console.log(this.favourites)
-  // }
+
+
+  deleteFav():void{
+    let newFav:any = []
+    this.favourites.forEach(fav => {
+      if(this.location.city != fav.city && this.location.state != fav.state){
+        newFav.push(fav)
+      }
+    })
+    this.switchService.newFavourites(newFav)
+  }
 
   showDailyDetail():void{
     if(this.detailBtnIndex == -1){
@@ -96,9 +98,15 @@ export class ParentResultComponent implements OnInit {
   }
 
   markFavourite():void{
-    this.isFavourite = true
-    this.favourites = [...this.favourites,this.location];
-    this.switchService.setFavourites(this.location)
+    if(this.isFavourite == true){
+        this.deleteFav()
+        this.isFavourite = false
+    }else{
+      this.isFavourite = true
+      this.favourites = [...this.favourites,this.location];
+      this.switchService.setFavourites(this.location)
+    }
+    
   }
 
 }
